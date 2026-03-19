@@ -10,7 +10,7 @@ public class BudgetManagerTest {
         BudgetManager manager = new BudgetManager(1000);
         manager.addExpense(new Expense("Mat", 100));
 
-        assertEquals(1, manager.getUtgifter().size());
+        assertEquals(1.0, manager.getUtgifter().size());
     }
 
     @Test
@@ -18,7 +18,7 @@ public class BudgetManagerTest {
         BudgetManager manager = new BudgetManager(1000);
         manager.addExpense(new Expense("Mat", 100));
 
-        assertEquals(100, manager.getTotalSpent());
+        assertEquals(100.0, manager.getTotalSpent());
     }
 
     @Test
@@ -27,7 +27,7 @@ public class BudgetManagerTest {
         manager.addExpense(new Expense("Mat", 100));
         manager.addExpense(new Expense("Transport", 50));
 
-        assertEquals(150, manager.getTotalSpent());
+        assertEquals(150.0, manager.getTotalSpent());
     }
 
 
@@ -36,7 +36,7 @@ public class BudgetManagerTest {
         BudgetManager manager = new BudgetManager(1000);
         manager.addExpense(new Expense("Mat", 200));
 
-        assertEquals(800, manager.getRemainingBudget());
+        assertEquals(800.0, manager.getRemainingBudget());
     }
 
 
@@ -44,7 +44,7 @@ public class BudgetManagerTest {
     void testEmptyExpenses() {
         BudgetManager manager = new BudgetManager(1000);
 
-        assertEquals(0, manager.getTotalSpent());
+        assertEquals(0.0, manager.getTotalSpent());
     }
 
     @Test //tester at negativt budsjett kaster exception

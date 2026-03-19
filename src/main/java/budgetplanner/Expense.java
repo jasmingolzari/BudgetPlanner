@@ -32,7 +32,7 @@ public class Expense implements Comparable<Expense>{
 
     @Override
     public int compareTo(Expense other) {
-        return Double.dompare(this.beløp, other.beløp);
+        return Double.compare(this.beløp, other.beløp);
     }
     
 
