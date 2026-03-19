@@ -84,3 +84,54 @@ I tillegg til alt dette er det laget en liten [eksempel-testfil](src/test/java/e
 | 15    |  6/4 | 10/4 | Fullføre appen med tilhørende dokumentasjon |
 
 **_LYKKE TIL_**
+
+
+
+# Prosjekt OOP
+
+## Ide:
+Forslag 1 – Budsjett planlegger:
+-	Applikasjonen lar brukeren opprette et budsjett og registrere utgifter. Brukeren kan legge inn navn og beløp på utgifter, og applikasjonen beregner hvor mye av budsjettet som er brukt, samt hvor mye som gjenstår. Applikasjonen gir en oversikt over alle utgifter, total bruk og resterende budsjett. Data kan lagres til og leses fra fil slik at brukeren kan fortsette senere. 
+-	Klasser (modell): Expense (Utgift), BudgetManager (Budsjettoversikt), FileHandler (lagre og lese utgifter), App, Controller, App.fxml (GUI), BudgetManagerTest (Test)
+
+## Krav:
+-	Applikasjonen skal ha et grafisk brukergrensesnitt (JavaFX)
+-	Følge Model-View-Controller (MVC)
+-	Ha minst 2 interagerende klasser (modell)
+-	Ha App- og Controller-klasser
+-	Minst en klasse må ha logikk (ikke bare data)
+-	Minst en klasse må implementere et interface
+-	Alle objekter skal ha korrekt innkapsling
+-	Objekter skal administrere sin egen tilstand
+-	Programmet skal kunne lese og skrive til fil
+-	Ha minst en egen klasse for filhåndtering 
+-	Konvertere objekter til tekst manuelt (ikke bruke ferdige serialiseringsverktøy)
+-	Det skal håndtere feil på en brukervennlig måte
+-	Ikke krasje ved feil
+-	Gi tilbakemelding ved ugyldig input
+-	Håndtere filfeil (for eksempel ved manglende fil)
+-	Programmet skal ha minst 6 enhetstester (JUnit 5)
+-	Minst en test skal teste filbehandling
+-	Teste viktig funksjonalitet
+-	Teste både normale tilfeller og rare scenarioer
+
+
+# DOKUMENTASJON
+
+## BESKRIVELSE (150-200 ord)
+-	Kort beskrivelse av appen som er laget og hva den gjør, evt hvorfor akkurat den
+
+## DIAGRAM
+-	Dere kan selv velge blant de fire diagramtypene i pensum; klassediagram, objektdiagram, objekttilstandsdiagram, og sekvensdiagram. Diagrammet skal vise en interessant/viktig del av appen. Dersom dere gjør noen antagelser som er viktige for å forstå diagrammet deres, skal disse også noteres ned her.
+
+## REFLEKSJON (500-800 ord)
+-	Hvilke deler av pensum i emnet dekkes i prosjektet, og på hvilken måte? (For eksempel bruk av arv, interface, delegering osv.) 
+-	Dersom deler av pensum ikke er dekket i prosjektet deres, hvordan kunne dere brukt disse delene av pensum i appen? 
+-	Hvordan forholder koden deres seg til Model-View-Controller-prinsippet? (Merk: det er ikke nødvendig at koden er helt perfekt i forhold til Model-View-Controller standarder. Det er mulig (og bra) å reflektere rundt svakheter i egen kode) 
+-	Hvordan har dere gått frem når dere skulle teste appen deres, og hvorfor har dere valgt de testene dere har? Har dere testet alle deler av koden? Hvis ikke, hvordan har dere prioritert hvilke deler som testes og ikke? (Her er tanken at dere skal reflektere rundt egen bruk av tester)
+
+## KI-DEL
+	Avsnitt om min bruk av KI på prosjektet. http://i.ntnu.no/wiki/-/wiki/Norsk/Kunstig+intelligens+i+bachelor-+og+masteroppgaver 
+-	Måtte du bruke KI for å få til prosjektet, eller var det bare tidsbesparende? (Her kan man også svare at man ikke har brukt KI om du ikke har det, men ikke lyv! 😉) 
+-	Dersom du brukte KI, prøvde du flere modeller? Lekte du deg litt med hva mulighetene er? 
+-	Dersom du brukte KI, i hvilken grad? Skrev den koden din? Spurte du om hjelp med debugging?
