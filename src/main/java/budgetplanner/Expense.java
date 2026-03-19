@@ -1,6 +1,6 @@
 package budgetplanner;
 
-public class Expense {
+public class Expense implements Comparable<Expense>{
     
     private String navn;
     private double beløp;
@@ -29,6 +29,11 @@ public class Expense {
         return beløp;
     }
 
+
+    @Override
+    public int compareTo(Expense other) {
+        return Double.dompare(this.beløp, other.beløp);
+    }
     
 
 
