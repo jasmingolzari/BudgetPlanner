@@ -1,6 +1,10 @@
 package budgetplanner;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 
 public class BudgetManagerTest {
@@ -57,6 +61,22 @@ public class BudgetManagerTest {
         } catch (IllegalArgumentException e) {
             //dette er riktig -> test er ok
         }
+    }
+
+
+    @Test
+    void testSorterBeløp() { //tester sortering by beløp stigende
+        List<Expense> liste = new ArrayList<>(); //lager ny arraylist med utgifter
+
+        //legger til utgifter
+        liste.add(new Expense("Mat", 100));
+        liste.add(new Expense("Kaffe", 50));
+
+        //sorterer basert på standardmetoden (compareto)
+        liste.sort(null);
+
+        //test
+        assertEquals(50.0, liste.get(0).getBeløp());
     }
     
 }

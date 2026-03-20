@@ -1,6 +1,7 @@
 package budgetplanner;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class BudgetManager {
@@ -42,6 +43,14 @@ public class BudgetManager {
 
     public double getBudsjett() {
         return budsjett;
+    }
+
+    public void sortUtgifter() {
+        Collections.sort(utgifter);
+    }
+
+    public void sortByName() {
+        utgifter.sort(new ExpenseComparatorByName());
     }
 
 
