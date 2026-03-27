@@ -1,137 +1,44 @@
-# Skjelettprosjekt for TDT4100 prosjekt V2026
 
-Dette repoet er et skjelettprosjekt for TDT4100 prosjektet våren 2026.
+# DOKUMENTASJON 
 
-Vi har opprettet et eksempelprosjekt her, som er ment for at dere skal kunne komme raskt i gang med deres eget prosjekt.
+## Beskrivelse av Budsjettplanlegger
 
-## TL;DR
+Denne applikasjonen er en budsjettplanlegger som lar brukeren holde oversikt over økonomien sin på en søt, enkel og oversiktlig måte! Brukeren kan sette et totalt budsjett og deretter registrere ulike utgifter med navn og beløp. Applikasjonen viser hvor mye penger som er brukt, samt hvor mye som gjenstår av budsjettet.
 
-Lag en ny mappe i `src/main/java/` som er deres prosjekt. Opprett en startfil for appen, slik som [ExampleProjectApp.java](src/main/java/exampleproject/ExampleProjectApp.java) og en kontroller som [ExampleProjectController.java](src/main/java/exampleproject/ExampleProjectController.java) i denne nye mappen. Lag så en mappe i `src/main/resources/` med samme navn som prosjektet deres og et view som [App.fxml](src/main/resources/exampleproject/App.fxml) i denne nye mappen.
+Brukeren kan legge til nye utgifter, og disse vises i en liste i brukergrensesnittet. Det er også mulig å sortere utgiftene enten etter pris eller alfabetisk, noe som gjør det lettere å få oversikt. I tillegg kan brukeren lagre utgiftene til en fil og laste dem inn igjen senere, slik at informasjon ikke går tapt mellom økter. 
 
-**Eventuelt**: Endre navn på filer og mapper fra "ExampleProject" til deres prosjektnavn.
+Applikasjonen er utviklet med et grafisk brukergrensensitt ved hjelp av JavaFX, som gjør den brukervennlig og intuitiv. Målet med appen er å gi en enkel løsning for å administrere et personlig budsjett og få bedre kontroll over egne utgifter, noe jeg personlig sliter en del med. Dette er grunnen til at jeg valgte akkurat en budsjettplanlegger som prosjekt, slik at jeg eventuelt kunne bruke den selv. 
 
-## Litt rask info
-
-Allerede nå er det mulig å kjøre filen [ExampleProjectApp.java](src/main/java/exampleproject/ExampleProjectApp.java) i VS Code for å få opp en liten kalkulator-app.
-
-Denne filen er "startfilen" til applikasjonen. Her settes tittel på appen, hvilken FXML-fil som skal brukes, og den er ansvarlig for å starte selve applikasjonen:
-
-```java
-primaryStage.setTitle("Example App"); // Setter tittel på vinduet
-primaryStage.setScene(new Scene(FXMLLoader.load(getClass().getResource("App.fxml")))); // Sier at appen skal bruke "App.fxml"
-primaryStage.show(); // Viser vinduet
-```
-
-Kontrolleren til applikasjonen er [ExampleProjectController.java](src/main/java/exampleproject/ExampleProjectController.java). Denne filen er "bindeleddet" mellom FXML-filen(e) og klassen(e) som skal brukes i applikasjonen. I dette eksempelprosjektet har den to metoder: `initCalculator` og `handleButtonClick`. I tillegg har den noen felter som er annotert med `@FXML`. Dette viser at de tilhører [FXML-filen](src/main/resources/exampleproject/App.fxml) vår. Her er navnet på variablene viktige. F.eks er `private Label result` på linje 12 bundet til `Label`-feltet på linje 15 i [FXML-filen](src/main/resources/exampleproject/App.fxml), siden denne har en `fx:id="result"` og variabelen vår heter `result`:
-
-```java
-@FXML
-private Label result; // Fra ExampleProjectApp.java
-
-<Label fx:id="result" layoutX="257.0" layoutY="244.0" /> // Fra App.fxml
-```
-
-Noe liknende skjer med metoden `handleButtonClick`, som også er annotert med `@FXML`. Dette gjøres slik at vi "får tak i" denne metoden fra [FXML-filen](src/main/resources/exampleproject/App.fxml). `Button`-feltet i [FXML-filen](src/main/resources/exampleproject/App.fxml) har en `onAction="#handleButtonClick"`, som vil si at metoden `handleButtonClick`, som er annotert med `@FXML`, blir kjørt når vi trykker på knappen:
-
-```xml
-<Button layoutX="271.0" layoutY="188.0" mnemonicParsing="false" onAction="#handleButtonClick" text="Kalkuler" /> <!-- Fra App.fxml -->
-```
-
-Det som gjør at [kontrolleren](src/main/java/exampleproject/ExampleProjectController.java) og [FXML-filen](src/main/resources/exampleproject/App.fxml) er koblet sammen er attributten `fx:controller='exampleproject.ExampleProjectController'` på det aller ytterste elementet i [FXML-filen](src/main/resources/exampleproject/App.fxml).
-
-```xml
-<AnchorPane fx:id="background" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="exampleproject.ExampleProjectController"> <!-- Fra App.fxml -->
-```
-
-Så, når vi trykker på knappen i appen blir som sagt metoden `handleButtonClick` kjørt. Det som skjer inne i denne metoden er først at vi oppretter en ny [kalkulator](src/main/java/exampleproject/Calculator.java). Ved opprettelse av en kalkulator trenger vi en `operator`. Denne henter vi ut fra hva en bruker av appen har skrevet inn i `TextField`-feltet med `fx:id="operator"`. Siden vi allerede har opprettet en variabel `private TextField operator`, som er annotert med `@FXML`, er denne allerede linket til dette `TextField`-feltet, og vi kan hente ut teksten som er skrevet inn med `operator.getText()`.
-
-```java
-initCalculator(operator.getText()); // Kaller på initCalculator som oppretter en ny kalkulator. Operator.getText() henter ut teksten som er skrevet inn i `operator`-feltet.
-```
-
-Det samme gjelder nedover i metoden; vi henter ut verdier fra `firstNumber` og `secondNumber`. Det som er verdt å merke seg her er at de blir hentet ut som `String`s, men kalkulatoren vår krever `int`s. Derfor gjør vi de også om til integers. Her bør man og være litt forsiktige, da det ikke er gitt at brukere skriver inn gyldige tall. Derfor har vi wrappet dette inn i en `try/catch`, som sier ifra dersom tallet er ugyldig.
-
-I tillegg til alt dette er det laget en liten [eksempel-testfil](src/test/java/exampleproject/CalculatorTest.java). Ingenting spennende som skjer her - det er en test for konstruktøren til [kalkulator-klassen vår](src/main/java/exampleproject/Calculator.java), samt en test for metoden `calculate` som den har. Alle tester dere skriver til klassene deres legges altså inn i mappen `src/test/java/<deres_prosjekt>/`.
-
-## For å komme i gang med deres eget prosjekt
-
-1. Lag et eget repo (repository) via templaten på [GitHub](https://git.ntnu.no/tdt4100/prosjekt-base/). En mer detaljert oppskrift på dette finner dere på Blackboard under Prosjekt->FAQ.
-2. Inviter gruppemedlemmene dine til dette repoet, og gi de minst en `Developer`-rolle (helst `Maintain`, men `Admin` funker også). Dette kan gjøres under Settings->Collaborators and teams->Add people.
-3. Klon prosjektet et sted på maskinen deres.
-4. Lag en ny mappe i `src/main/java/` som er deres prosjekt.
-5. Opprett en startfil for appen deres, slik som [ExampleProjectApp.java](src/main/java/exampleproject/ExampleProjectApp.java) og en kontroller som [ExampleProjectController.java](src/main/java/exampleproject/ExampleProjectController.java) i deres nye prosjektmappe.
-6. Opprett en ny mappe i `src/main/resources/` som er deres prosjekt.
-7. Opprett en FXML-fil, slik som [App.fxml](src/main/resources/exampleproject/App.fxml) i deres nye prosjektmappe i `src/main/resources/`.
-8. **HUSK** å legge inn `fx:controller='<deres_prosjekt>.<deres_kontroller>'` på det aller ytterste elementet i den nye FXML-filen deres, ellers vil ikke appen starte.
-
-**Eventuelt**: Endre navn på filer og mapper fra "ExampleProject" til deres prosjektnavn.
-
-## Reminder av nøkkelpunkter
-
-| Nøkkelpunkt                              | Beskrivelse                             |
-| ---------------------------------------- | --------------------------------------- |
-| Innleveringsfrist                        | 10. april                               |
-| Demonstrasjonsfrist hos læringsassistent | 17. april                               |
-| Gruppestørrelse                          | 1 eller 2 personer                      |
-
-### Anbefalte perioder å jobbe med prosjektet
-
-| Uke   | Fra  | Til  | Beskrivelse                                 |
-| ----- | ---- | ---- | ------------------------------------------- |
-| 12    | 16/3 | 20/3 | Grunnklasser og brukergrensesnitt           |
-| 13    | 23/3 |  27/3 | Lagring og filhåndtering                   |
-| 14    | 30/3 |  3/4 | Chille og grille på påskeferie!            |
-| 15    |  6/4 | 10/4 | Fullføre appen med tilhørende dokumentasjon |
-
-**_LYKKE TIL_**
-
-
-
-# Prosjekt OOP
-
-## Ide:
-Forslag 1 – Budsjett planlegger:
--	Applikasjonen lar brukeren opprette et budsjett og registrere utgifter. Brukeren kan legge inn navn og beløp på utgifter, og applikasjonen beregner hvor mye av budsjettet som er brukt, samt hvor mye som gjenstår. Applikasjonen gir en oversikt over alle utgifter, total bruk og resterende budsjett. Data kan lagres til og leses fra fil slik at brukeren kan fortsette senere. 
--	Klasser (modell): Expense (Utgift), BudgetManager (Budsjettoversikt), FileHandler (lagre og lese utgifter), App, Controller, App.fxml (GUI), BudgetManagerTest (Test)
-
-## Krav:
--	Applikasjonen skal ha et grafisk brukergrensesnitt (JavaFX)
--	Følge Model-View-Controller (MVC)
--	Ha minst 2 interagerende klasser (modell)
--	Ha App- og Controller-klasser
--	Minst en klasse må ha logikk (ikke bare data)
--	Minst en klasse må implementere et interface
--	Alle objekter skal ha korrekt innkapsling
--	Objekter skal administrere sin egen tilstand
--	Programmet skal kunne lese og skrive til fil
--	Ha minst en egen klasse for filhåndtering 
--	Konvertere objekter til tekst manuelt (ikke bruke ferdige serialiseringsverktøy)
--	Det skal håndtere feil på en brukervennlig måte
--	Ikke krasje ved feil
--	Gi tilbakemelding ved ugyldig input
--	Håndtere filfeil (for eksempel ved manglende fil)
--	Programmet skal ha minst 6 enhetstester (JUnit 5)
--	Minst en test skal teste filbehandling
--	Teste viktig funksjonalitet
--	Teste både normale tilfeller og rare scenarioer
-
-
-# DOKUMENTASJON
-
-## BESKRIVELSE (150-200 ord)
--	Kort beskrivelse av appen som er laget og hva den gjør, evt hvorfor akkurat den
 
 ## DIAGRAM
 -	Dere kan selv velge blant de fire diagramtypene i pensum; klassediagram, objektdiagram, objekttilstandsdiagram, og sekvensdiagram. Diagrammet skal vise en interessant/viktig del av appen. Dersom dere gjør noen antagelser som er viktige for å forstå diagrammet deres, skal disse også noteres ned her.
 
-## REFLEKSJON (500-800 ord)
--	Hvilke deler av pensum i emnet dekkes i prosjektet, og på hvilken måte? (For eksempel bruk av arv, interface, delegering osv.) 
--	Dersom deler av pensum ikke er dekket i prosjektet deres, hvordan kunne dere brukt disse delene av pensum i appen? 
--	Hvordan forholder koden deres seg til Model-View-Controller-prinsippet? (Merk: det er ikke nødvendig at koden er helt perfekt i forhold til Model-View-Controller standarder. Det er mulig (og bra) å reflektere rundt svakheter i egen kode) 
--	Hvordan har dere gått frem når dere skulle teste appen deres, og hvorfor har dere valgt de testene dere har? Har dere testet alle deler av koden? Hvis ikke, hvordan har dere prioritert hvilke deler som testes og ikke? (Her er tanken at dere skal reflektere rundt egen bruk av tester)
+## Refleksjon rundt prosjektet 
 
-## KI-DEL
-	Avsnitt om min bruk av KI på prosjektet. http://i.ntnu.no/wiki/-/wiki/Norsk/Kunstig+intelligens+i+bachelor-+og+masteroppgaver 
--	Måtte du bruke KI for å få til prosjektet, eller var det bare tidsbesparende? (Her kan man også svare at man ikke har brukt KI om du ikke har det, men ikke lyv! 😉) 
--	Dersom du brukte KI, prøvde du flere modeller? Lekte du deg litt med hva mulighetene er? 
--	Dersom du brukte KI, i hvilken grad? Skrev den koden din? Spurte du om hjelp med debugging?
+I dette prosjektet har jeg fått brukt flere sentrale deler av pensum i objektorientert programmering. En viktig del av prosjektet er bruken av klasser og innkapsling. Jeg har laget klassene Expense og BudgetManager, hvor hver klasse har ansvar for sin egen tilstand og funksjonalitet. For eksempel lagrer Expense informasjon om en enkelt utgift, mens BudgetManager håndterer en samling av utgifter og utfører beregninger som total bruk og resterende budsjett. Dette viser tydelig hvordan objekter kan representere data og samtidig inneholde relevant logikk. 
+
+I tillegg er applikasjonen bygget opp rundt flere andre klasser med andre ansvarsområder, som for eksempel FileHandler og BudgetApp. 
+
+Jeg har også brukt interface gjennom implementasjonen av Comparable i Expense-klassen. Dette gjør det mulig å sortere utgifter basert på beløp. I tillegg har jeg laget en egen comparator klasse, ExpenseComparatorByName, for å sortere alfabetisk. Dette viser hvordan man kan bruke ulike strategier for sammenlikning og sortering, og hvordan interfaces kan bidra til en mer fleksibel kode. 
+
+FileHandler klassen håndterer lesing og skriving til fil. Her konverteres objekter manuelt til tekstformat og tilbke igjen, noe som gir en bedre forståelse for hvordan data kan lagres og hentes uten bruk av innebygde serialiseringsverktøy. Denne klassen er separert fra de andre klassene, noe som gjør koden mer strukturert og lettere å vedlikeholde. 
+
+Når det gjelder andre deler av pensum, som arv, er dette ikke brukt direkte i prosjektet. En mulig utvidelse kunne vært å lage en superklasse, for eksempel en generell Transaction-klasse som både inntekter og utgifter kunne arves fra. Dette kunne gjort koden mer utvidbart. 
+
+Koden er strukturert etter Model-View-Controller-prinsippet. Modellene består av kalssen Expense og BudgetManager, som håndterer data og logikk. View er implementert med JavaFX gjennom FXML-filen, som definerer brukergrensesnittet. BudgetApp fungerer som startpunktet for applikasjonen. Controlleren fungerer som et bindeledd mellom disse, og håndterer brukerinput og oppdaterer modellen og viewet. Selv om strukturen følger MVC-prinsippet, er det noen svakheter. Blant annet at noe logikk kunne vært enda tydeligere plassert i modellen i stedet for i controlleren. Likevel er hovedideen bak MVC godt ivaretatt. 
+
+Testingen har vært en viktig del av prosessen. Jeg har skrevet enhetstester for sentrale metoder i BudgetManager, som å legge til utgifter, beregne total bruk og resterende budsjett. I tillegg har jeg laget en test for filhåndtering, hvor jeg tester at utgifter kan lagres til og lastes fra fil korrekt. Jeg har valgt å teste både normale tilfeller og noen spesielle tilfeller, som tom liste og ugyldige verdier. Jeg har ikke testet GUI delen av programmet, da dette ikke var et krav. I stedet har jeg fokusert på å teste logikken i modellen, siden det er dette jeg har fokusert på. 
+
+Gjennom prosjektet har jeg fått en bedre forståelse av hvordan man bygger opp en større applikasjon med flere deler som samarbeider. Dette har jeg aldri gjort før. Spesielt har jeg lært mer om hvordan man strukturere kode, håndterer data, og skriver tester for å sikre at programmet fungerer som forventet.  
+
+
+
+## Bruk av KI
+
+I arbeidet med dette prosjektet har jeg brukt KI som et hjelpemiddel for å forstå konsepter og få veiledning underveis. KI har ikke blitt brukt til å generere hele løsninger, men heller som støtte for å forklare ting jeg syntes var vanskelig, som for eksempel filhåndtering, testing og bruk av interfaces.
+
+Jeg har hovedsakelig brukt KI til å stille spørsmål når jeg sto fast, og til å få eksempler på hvordan ulike deler kunne implementeres. Deretter har jeg selv tilpasset og skrevet koden slik at jeg forstår hva som skjer. KI har derfor fungert mer som en læringsressurs enn som en direkte løsning på oppgavene.
+
+Jeg har ikke prøvd mange ulike modeller, men brukt én modell gjennom hele prosjektet. Bruken av KI har i stor grad vært tidsbesparende, men også nyttig for å få en dypere forståelse av pensum. Spesielt i deler som filhåndtering og testing, hvor jeg i utgangspunktet hadde ekstremt lite erfaring, har KI vært til stor hjelp.
+
+Gjennom prosjektet har jeg blitt mer bevisst på hvordan KI kan brukes som et verktøy i læring. Jeg ser at det kan være svært nyttig for å forklare konsepter og gi retning, men at det fortsatt er viktig å forstå og skrive koden selv for å lære mest mulig.
