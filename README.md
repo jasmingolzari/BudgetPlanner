@@ -1,46 +1,68 @@
 
-# DOKUMENTASJON 
+# BudgetPlanner
 
-## Beskrivelse av Budsjettplanlegger
+En enkel budsjettplanlegger med grafisk brukergrensesnitt, laget med JavaFX som et semesterprosjekt i objektorientert programmering ved NTNU.
 
-Denne applikasjonen er en budsjettplanlegger som lar brukeren holde oversikt over økonomien sin på en søt, enkel og oversiktlig måte! Brukeren kan sette et totalt budsjett og deretter registrere ulike utgifter med navn og beløp. Applikasjonen viser hvor mye penger som er brukt, samt hvor mye som gjenstår av budsjettet.
+Denne applikasjonen er en budsjettplanlegger som lar brukeren holde oversikt over økonomien sin på en enkel og oversiktlig måte. Brukeren kan sette et totalt budsjett og deretter registrere ulike utgifter med navn og beløp. Applikasjonen viser hvor mye penger som er brukt, samt hvor mye som gjenstår av budsjettet.
 
 Brukeren kan legge til nye utgifter, og disse vises i en liste i brukergrensesnittet. Det er også mulig å sortere utgiftene enten etter pris eller alfabetisk, noe som gjør det lettere å få oversikt. I tillegg kan brukeren lagre utgiftene til en fil og laste dem inn igjen senere, slik at informasjon ikke går tapt mellom økter. 
 
 Applikasjonen er utviklet med et grafisk brukergrensensitt ved hjelp av JavaFX, som gjør den brukervennlig og intuitiv. Målet med appen er å gi en enkel løsning for å administrere et personlig budsjett og få bedre kontroll over egne utgifter, noe jeg personlig sliter en del med. Dette er grunnen til at jeg valgte akkurat en budsjettplanlegger som prosjekt, slik at jeg eventuelt kunne bruke den selv. 
 
 
-## DIAGRAM
+## Funksjoner
 
-![Diagram](image.png)
-Ingen spesielle antakelser. Expense klassen står i sentrum og har relasjoner med alle andre klasser. 
+- Sett et totalt budsjett og se gjenstående beløp
+- Legg til utgifter med navn og beløp
+- Sorter utgifter etter pris eller alfabetisk
+- Lagre utgifter til fil og last dem inn igjen senere
 
-## Refleksjon rundt prosjektet 
+## Teknologi
 
-I dette prosjektet har jeg fått brukt flere sentrale deler av pensum. En viktig del av prosjektet er bruken av klasser og innkapsling. Jeg har laget klassene Expense og BudgetManager, hvor hver klasse har ansvar for sin egen tilstand og funksjonalitet. For eksempel lagrer Expense informasjon om en enkelt utgift, mens BudgetManager håndterer en samling av utgifter og utfører beregninger som total bruk og resterende budsjett. Dette viser tydelig hvordan objekter kan representere data og samtidig inneholde relevant logikk. 
+- Java 21
+- JavaFX (FXML)
+- Maven
+- JUnit 5
 
-I tillegg er applikasjonen bygget opp rundt flere klasser med andre ansvarsområder, som for eksempel FileHandler og BudgetApp. 
+## Kjøre prosjektet
 
-Jeg har også brukt interface gjennom implementasjonen av Comparable i Expense-klassen. Dette gjør det mulig å sortere utgifter basert på beløp. I tillegg har jeg laget en egen comparator klasse, ExpenseComparatorByName, for å sortere alfabetisk. Dette viser hvordan man kan bruke ulike strategier for sammenlikning og sortering, og hvordan interfaces kan bidra til en mer fleksibel kode. 
+Krever Java 21 og Maven.
 
-FileHandler klassen håndterer lesing og skriving til fil. Her konverteres objekter manuelt til tekstformat og tilbke igjen, noe som gir en bedre forståelse for hvordan data kan lagres og hentes uten bruk av innebygde serialiseringsverktøy. Denne klassen er separert fra de andre klassene, noe som gjør koden mer strukturert og lettere å vedlikeholde. 
+```bash
+mvn javafx:run
+```
 
-Når det gjelder andre deler av pensum, som arv, er dette ikke brukt direkte i prosjektet. En mulig utvidelse kunne vært å lage en superklasse, for eksempel en generell Transaction-klasse som både inntekter og utgifter kunne arves fra. Dette hadde gjort koden mer utvidbart. 
+Kjøre testene:
 
-Koden er strukturert etter Model-View-Controller-prinsippet. Modellene består av klassen Expense og BudgetManager, som håndterer data og logikk. View er implementert med JavaFX gjennom FXML-filen, som definerer brukergrensesnittet. BudgetApp fungerer som startpunktet for applikasjonen. Controlleren fungerer som et bindeledd mellom disse, og håndterer brukerinput og oppdaterer modellen og viewet. Selv om strukturen følger MVC-prinsippet, er det noen svakheter. Blant annet at noe logikk kunne vært enda tydeligere plassert i modellene i stedet for i controlleren. Likevel er hovedideen bak MVC godt ivaretatt. 
+```bash
+mvn test
+```
 
-Testingen har vært en viktig del av prosessen. Jeg har skrevet enhetstester for viktige metoder i BudgetManager, som å legge til utgifter, beregne total bruk og resterende budsjett. I tillegg har jeg laget en test for filhåndtering, hvor jeg tester at utgifter kan lagres og lastes fra fil korrekt. Jeg har valgt å teste både normale tilfeller og noen spesielle tilfeller, som tom liste og ugyldige verdier. Jeg har ikke testet GUI delen av programmet, da dette ikke var et krav. I stedet har jeg fokusert på å teste logikken i modellen, siden det er dette jeg har fokusert på. 
+## Struktur
 
-Gjennom prosjektet har jeg fått en bedre forståelse av hvordan man bygger opp en større applikasjon med flere deler som samarbeider. Dette har jeg aldri gjort før. Spesielt har jeg lært mer om hvordan man strukturere kode, håndterer data, og skriver tester for å sikre at programmet fungerer som forventet.  
+Prosjektet følger Model-View-Controller:
 
+| Del | Klasser |
+|---|---|
+| Modell | `Expense`, `BudgetManager` |
+| View | `App.fxml` |
+| Controller | `BudgetController` |
+| Filhåndtering | `FileHandler` |
+| Oppstart | `BudgetApp` |
 
+`Expense` implementerer `Comparable` (sortering etter beløp), og `ExpenseComparatorByName` er en egen `Comparator` for alfabetisk sortering. `FileHandler` leser og skriver utgifter som tekst (`navn;beløp`), adskilt fra resten av logikken.
+
+![Klassediagram](image.png)
+
+## Tester
+
+Enhetstester dekker `BudgetManager` (legge til utgifter, totalt forbruk, gjenstående budsjett, tom liste og ugyldige verdier) og `FileHandler` (lagre og laste fra fil). GUI-et er ikke testet.
+
+## Videre arbeid
+
+- Støtte for inntekter, for eksempel via en felles `Transaction`-superklasse
+- Flytte mer logikk fra controlleren til modellen
 
 ## Bruk av KI
 
-I arbeidet med dette prosjektet har jeg brukt KI som et hjelpemiddel for å forstå konsepter og få veiledning underveis. KI har ikke blitt brukt til å generere hele løsninger, men heller som støtte for å forklare ting jeg syntes var vanskelig, som for eksempel filhåndtering, testing og bruk av interfaces.
-
-Jeg har hovedsakelig brukt KI til å stille spørsmål når jeg sto fast, og til å få eksempler på hvordan ulike deler kunne implementeres. Deretter har jeg selv tilpasset og skrevet koden slik at jeg forstår hva som skjer. KI har derfor fungert mer som en læringsressurs enn som en direkte løsning på oppgavene.
-
-Jeg har ikke prøvd mange ulike modeller, men brukt én modell gjennom hele prosjektet. Bruken av KI har i stor grad vært tidsbesparende, men også nyttig for å få en dypere forståelse av pensum. Spesielt i deler som filhåndtering og testing, hvor jeg i utgangspunktet hadde ekstremt lite erfaring, har KI vært til stor hjelp.
-
-Gjennom prosjektet har jeg blitt mer bevisst på hvordan KI kan brukes som et verktøy i læring. Jeg ser at det kan være svært nyttig for å forklare konsepter og gi retning, men at det fortsatt er viktig å forstå og skrive koden selv for å lære mest mulig. 
+KI ble brukt som støtte for å forstå konsepter som filhåndtering, testing og interfaces. Den ble ikke brukt til å generere hele løsninger. For nærmere refleksjon, se `docs/refleksjon.md`
